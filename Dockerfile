@@ -10,19 +10,15 @@ RUN set -x && cd /tmp && \
     make && install -vps mpy-cross /usr/local/bin/ && \
     cd ../ports/unix && \
     make axtls && make && \
-    make install && \
-    cd /tmp && rm -rf micropython
+    make install
 
 ## -- Stage 2 -- Dist container --
 FROM debian
 
-#RUN apt-get -y install sudo && echo "micropython ALL=NOPASSWD: ALL" > /etc/sudoers.d/micropython && chmod 440 /etc/sudoers.d/micropython
-
-COPY --from=0 /usr/local/bin/* /usr/local/bin/
+COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
 RUN useradd -m -d /src micropython
 WORKDIR /src
 USER micropython
 
 CMD ["micropython"]
-
