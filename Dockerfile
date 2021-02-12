@@ -22,4 +22,4 @@ RUN useradd -m -d /src micropython
 WORKDIR /src
 USER micropython
 
-CMD ["micropython"]
+ENTRYPOINT /usr/local/bin/micropython
